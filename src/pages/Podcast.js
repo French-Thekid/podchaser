@@ -24,7 +24,6 @@ export default function Podcast() {
   })
 
   if (loading) return <Loading />
-  console.log(error)
   if (error)
     return <Alert id="podcastError" message="Failed to Load selected Podcast" />
 
