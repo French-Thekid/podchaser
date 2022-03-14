@@ -1,11 +1,8 @@
 const PODCAST = Cypress.env('podcast')
 
-describe('renders home page', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
-
+describe('renders home and podcast page', () => {
   it('Home page renders correctly', () => {
+    cy.visit('/')
     cy.get('#layout').should('exist')
   })
 
@@ -17,7 +14,6 @@ describe('renders home page', () => {
   })
 
   it('Fetch and verify podcasts', () => {
-    // cy.get('#layout').should('exist')
     cy.request('https://api.podchaser.com/userlists/27998').then((response) => {
       expect(response).to.have.property('status', 200)
       expect(response.body).to.not.be.null
@@ -38,7 +34,7 @@ describe('renders home page', () => {
   })
 
   it(`Fetch and verify selected (${PODCAST}) podcast`, () => {
-    // cy.get('#layout').should('exist')
+    cy.visit('/podcast/243479')
     cy.request('https://api.podchaser.com/podcasts/243479').then((response) => {
       expect(response).to.have.property('status', 200)
       expect(response.body).to.not.be.null
@@ -47,10 +43,37 @@ describe('renders home page', () => {
     })
   })
 
+  it(`Testing broken endpoint on podcast page`, () => {
+    cy.visit('/podcast/h')
+    cy.url().should('eq', 'http://localhost:3000/podcast/h')
+    cy.get('#podcastError').should('exist').and('be.visible')
+    cy.findByText('Failed to Load selected Podcast')
+      .should('exist')
+      .and('be.visible')
+
+    //Testing broken url  with incorrect ID to ensure user gets error message
+    cy.request({
+      url: 'https://api.podchaser.com/podcasts/h',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response).to.have.property('status', 404)
+      expect(response.body).to.not.be.null
+      expect(response.body).to.have.property('message', 'Not Found')
+    })
+  })
+
   it('routes to home page from podcast page on logo click', () => {
-    cy.get('#layout').should('exist')
-    cy.get('#layout').click()
+    cy.visit('/podcast/243479')
+    cy.get('#logo').should('exist')
+    cy.get('#logo').click()
     cy.url().should('eq', 'http://localhost:3000/')
     cy.findByText('All Podcast').should('exist').and('be.visible')
+  })
+
+  it('renders 404 page on unknown routes', () => {
+    cy.visit('/podcastzzz')
+    cy.get('#404Page').should('exist').and('be.visible')
+    cy.get('#return').click()
+    cy.url().should('eq', 'http://localhost:3000/')
   })
 })

@@ -24,7 +24,9 @@ export default function Podcast() {
   })
 
   if (loading) return <Loading />
-  if (error) return <Alert message="Failed to Load selected Podcast" />
+  console.log(error)
+  if (error)
+    return <Alert id="podcastError" message="Failed to Load selected Podcast" />
 
   const {
     rating = 0,
@@ -113,6 +115,7 @@ export default function Podcast() {
           display="grid"
           rows="max-content 1fr"
           overflowY="auto"
+          height="100%"
         >
           <Text size="20px" weight="600">
             Recent Episodes
