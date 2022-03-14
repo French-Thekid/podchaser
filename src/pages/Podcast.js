@@ -42,10 +42,11 @@ export default function Podcast() {
       display="grid"
       columns="1fr 300px"
       overflowY="auto"
-      height="calc(100% - 20px)"
       gap="40px"
-      paddingBottom="20px"
       id="podcastMainContainer"
+      height="calc(100% - 20px)"
+      width="calc(100% - 20px)"
+      padding="10px"
     >
       <Container height="100%" display="grid" rows="max-content 1fr">
         <Container height="100%" display="grid" rows="180px 1fr">

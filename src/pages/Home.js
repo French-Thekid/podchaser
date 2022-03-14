@@ -15,7 +15,7 @@ export default function Home() {
 
   const { list: { items = [] } = {} } = data || {}
 
-  const podcastHandler = (id) => navigate(`podcast/${id}`)
+  const podcardHandler = (id) => navigate(`podcast/${id}`)
 
   return (
     <Container
@@ -23,7 +23,9 @@ export default function Home() {
       display="grid"
       rows="repeat(2, max-content) 1fr"
       overflowY="auto"
-      height="100%"
+      height="calc(100% - 20px)"
+      width="calc(100% - 20px)"
+      padding="10px"
     >
       <Text size="40px" weight={700}>
         All Podcast
@@ -43,7 +45,7 @@ export default function Home() {
           //One of the podcast is empty, to prevent user from seeing missing information and take a preventative measure, all podcast without ID wont be rendered to user
           if (entity.id)
             return (
-              <PodcastCard handler={podcastHandler} item={entity} key={index} />
+              <PodcastCard handler={podcardHandler} item={entity} key={index} />
             )
           return null
         })}

@@ -15,8 +15,9 @@ export default function NavBar() {
     <div
       css={`
         height: 50px;
-        width: 100%;
+        width: calc(100% - 10px);
         display: grid;
+        padding-left: 10px;
         background: linear-gradient(
           90deg,
           rgba(43, 23, 114, 1) 0%,
